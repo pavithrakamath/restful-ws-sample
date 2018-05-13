@@ -13,8 +13,8 @@ public class UserService {
 	private static List<User> users = new ArrayList<>();
 	static {
 		users.add(new User(1, "PK", new Date()));
-		users.add(new User(1, "PK", new Date()));
-		users.add(new User(1, "PK", new Date()));
+		users.add(new User(2, "RB", new Date()));
+		users.add(new User(3, "SB", new Date()));
 	}
 
 	public List<User> getAllUsers() {
