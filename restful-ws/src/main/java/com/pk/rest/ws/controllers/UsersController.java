@@ -3,6 +3,8 @@ package com.pk.rest.ws.controllers;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,18 +25,22 @@ public class UsersController {
 	@Autowired
 	private UserService service;
 
-	@GetMapping(path = "/getAllUsers")
+	@GetMapping(path = "/users")
 	public List<User> getAll() {
 		return service.getAllUsers();
 	}
 
 	@GetMapping(path = "/getUser/{id}")
 	public User getUser(@PathVariable int id) {
-		return service.getUser(id);
+		User user = service.getUser(id);
+		if (user == null)
+			throw new RuntimeException("User not found");
+		else
+			return user;
 	}
 
 	@PostMapping("/users")
-	public ResponseEntity addUser(@RequestBody User user) {
+	public ResponseEntity addUser(@Valid @RequestBody User user) {
 		User newUser = service.setUser(user);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("{id}").buildAndExpand(newUser.getId())
 				.toUri();
